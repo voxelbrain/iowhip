@@ -90,5 +90,6 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 		}
 		amount -= Datasize(n)
 	}
+	f.Sync()
 	result.Duration = time.Now().Sub(start)
 }
