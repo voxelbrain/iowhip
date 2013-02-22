@@ -11,6 +11,10 @@ import (
 	"github.com/voxelbrain/goptions"
 )
 
+const (
+	VERSION = "1.0.0"
+)
+
 var (
 	DefaultFilesize  = 10 * GigaByte
 	DefaultBlocksize = 4 * KiloByte
