@@ -24,6 +24,7 @@ var (
 		Blocksize *Datasize     `goptions:"-b, --block-size, description='Number of bytes to write with each call'"`
 		Filesize  *Datasize     `goptions:"-f, --file-size, description='Number of zeroes to write to each file'"`
 		KeepFiles bool          `goptions:"-k, --keep-files, description='Dont delete files when done'"`
+		Sync      bool          `goptions:"-s, --sync, description='Sync after every written block'"`
 		Help      goptions.Help `goptions:"-h, --help, description='Show this help'"`
 	}{
 		Cores:     runtime.NumCPU(),
@@ -89,6 +90,9 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 			return
 		}
 		amount -= Datasize(n)
+		if options.Sync {
+			f.Sync()
+		}
 	}
 	f.Sync()
 	result.Duration = time.Now().Sub(start)
