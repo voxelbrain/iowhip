@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime"
 	"sync"
 	"time"
@@ -23,13 +24,15 @@ var (
 		Threads   int           `goptions:"-t, --threads, description='Number of threads to use'"`
 		Blocksize *Datasize     `goptions:"-b, --block-size, description='Number of bytes to write with each call'"`
 		Filesize  *Datasize     `goptions:"-f, --file-size, description='Number of zeroes to write to each file'"`
-		KeepFiles bool          `goptions:"-k, --keep-files, description='Dont delete files when done'"`
+		OutputDir string        `goptions:"-o, --output-dir, description='Output directory'"`
 		Sync      bool          `goptions:"-s, --sync, description='Sync after every written block'"`
+		KeepFiles bool          `goptions:"-k, --keep-files, description='Dont delete files when done'"`
 		Help      goptions.Help `goptions:"-h, --help, description='Show this help'"`
 	}{
 		Cores:     runtime.NumCPU(),
 		Threads:   runtime.NumCPU(),
 		Filesize:  &DefaultFilesize,
+		OutputDir: filepath.Clean(os.TempDir() + fmt.Sprintf("/iowhip_%d/", time.Now().UnixNano())),
 		Blocksize: &DefaultBlocksize,
 	}
 )
@@ -67,7 +70,7 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 	}
 	defer func() { c <- result }()
 	defer wg.Done()
-	filename := fmt.Sprintf("%s/iowhip_%d_%d", os.TempDir(), idx, time.Now().UnixNano())
+	filename := fmt.Sprintf("%s/%d", options.OutputDir, idx)
 	log.Printf("Thread %d: Using %s", idx, filename)
 	if !options.KeepFiles {
 		defer os.Remove(filename)
