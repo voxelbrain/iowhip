@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	VERSION = "1.0.0"
+	VERSION = "1.0.1"
 )
 
 var (
@@ -90,5 +90,6 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 		}
 		amount -= Datasize(n)
 	}
+	f.Sync()
 	result.Duration = time.Now().Sub(start)
 }
