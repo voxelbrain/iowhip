@@ -28,5 +28,18 @@
 	2013/02/22 12:47:07 Thread 2: 2m59.765777s, 56.963M/s
 	2013/02/22 12:47:07 Thread 3: 3m3.512097s, 55.800M/s
 
+
+## Binaries
+
+* [Darwin 386](http://filedump.surmair.de/binaries/iowhip/darwin_386/iowhip)
+* [Darwin amd64](http://filedump.surmair.de/binaries/iowhip/darwin_amd64/iowhip)
+* [Freebsd 386](http://filedump.surmair.de/binaries/iowhip/freebsd_386/iowhip)
+* [Freebsd amd64](http://filedump.surmair.de/binaries/iowhip/freebsd_amd64/iowhip)
+* [Linux 386](http://filedump.surmair.de/binaries/iowhip/linux_386/iowhip)
+* [Linux amd64](http://filedump.surmair.de/binaries/iowhip/linux_amd64/iowhip)
+* [Linux arm](http://filedump.surmair.de/binaries/iowhip/linux_arm/iowhip)
+* [Windows 386](http://filedump.surmair.de/binaries/iowhip/windows_386/iowhip.exe)
+* [Windows amd64](http://filedump.surmair.de/binaries/iowhip/windows_amd64/iowhip.exe)
+
 ---
 Version 1.0.0
