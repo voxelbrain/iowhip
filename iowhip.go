@@ -51,7 +51,7 @@ func main() {
 	wg.Wait()
 	for i := 0; i < options.Threads; i++ {
 		r := <-results
-		log.Printf("Thread %d: %s, %s/s", r.Index, r.Duration, Datasize(int64(*options.Filesize)*int64(time.Second)/int64(r.Duration)))
+		log.Printf("Thread %d: %s, %s/s", r.Index, r.Duration, Datasize(int64(float64(*options.Filesize)*float64(time.Second)/float64(r.Duration))))
 	}
 	close(results)
 }
