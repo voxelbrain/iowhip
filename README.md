@@ -43,4 +43,4 @@
 * [Windows amd64](http://filedump.surmair.de/binaries/iowhip/windows_amd64/iowhip.exe)
 
 ---
-Version 1.1.0
+Version 1.1.1
