@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 type Datasize int64
@@ -42,7 +43,7 @@ func (f *Datasize) MarshalGoption(s string) error {
 		return err
 	}
 	multiplier := float64(1)
-	switch suffix {
+	switch strings.ToUpper(suffix) {
 	case "B":
 		multiplier = float64(Byte)
 	case "K":
