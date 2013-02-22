@@ -15,6 +15,7 @@
 	    -b, --block-size Number of bytes to write with each call (default: 4.000K)
 	    -f, --file-size  Number of zeroes to write to each file (default: 10.000G)
 	    -k, --keep-files Dont delete files when done
+	    -s, --sync       Sync after every written block
 	    -h, --help       Show this help
 
 	$ iowhip
