@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 	"path/filepath"
 	"runtime"
 	"sync"
+	"syscall"
 	"time"
 
 	"github.com/voxelbrain/goptions"
@@ -32,13 +34,15 @@ var (
 		Cores:     runtime.NumCPU(),
 		Threads:   runtime.NumCPU(),
 		Filesize:  &DefaultFilesize,
-		OutputDir: filepath.Clean(os.TempDir() + fmt.Sprintf("/iowhip_%d/", time.Now().UnixNano())),
 		Blocksize: &DefaultBlocksize,
+		OutputDir: os.TempDir(),
 	}
+	Timestamp = fmt.Sprintf("%d", time.Now().UnixNano())
 )
 
 func init() {
 	goptions.ParseAndFail(&options)
+	options.OutputDir = filepath.Clean(options.OutputDir + "/iowhip_" + Timestamp)
 }
 
 type Result struct {
@@ -47,6 +51,19 @@ type Result struct {
 }
 
 func main() {
+	err := os.MkdirAll(options.OutputDir, os.FileMode(0755))
+	if err != nil {
+		log.Fatalf("Could not create output directory %s: %s", options.OutputDir, err)
+	}
+	cleanup := make(chan os.Signal)
+	signal.Notify(cleanup, syscall.SIGTERM, syscall.SIGKILL, syscall.SIGINT)
+	go func() {
+		<-cleanup
+		if !options.KeepFiles {
+			os.RemoveAll(options.OutputDir)
+		}
+	}()
+
 	runtime.GOMAXPROCS(options.Cores)
 	log.Printf("Starting %d workers on %d cores writing %s bytes (%s per call)...", options.Threads, options.Cores, options.Filesize, options.Blocksize)
 
@@ -62,6 +79,7 @@ func main() {
 		log.Printf("Thread %d: %s, %s/s", r.Index, r.Duration, Datasize(int64(float64(*options.Filesize)*float64(time.Second)/float64(r.Duration))))
 	}
 	close(results)
+	cleanup <- syscall.SIGINT
 }
 
 func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
@@ -72,9 +90,6 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 	defer wg.Done()
 	filename := fmt.Sprintf("%s/%d", options.OutputDir, idx)
 	log.Printf("Thread %d: Using %s", idx, filename)
-	if !options.KeepFiles {
-		defer os.Remove(filename)
-	}
 
 	f, err := os.Create(filename)
 	if err != nil {
