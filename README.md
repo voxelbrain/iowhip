@@ -13,22 +13,22 @@
 	    -c, --cores      Number of cores to use (default: 4)
 	    -t, --threads    Number of threads to use (default: 4)
 	    -b, --block-size Number of bytes to write with each call (default: 4.000K)
-	    -f, --file-size  Number of zeroes to write to each file (default: 10.000G)
-	    -k, --keep-files Dont delete files when done
+	    -f, --file-size  Number of zeroes to write to each file (*)
+	    -o, --output-dir Output directory (default: /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/)
 	    -s, --sync       Sync after every written block
+	    -k, --keep-files Dont delete files when done
 	    -h, --help       Show this help
 
-	$ iowhip
-	2013/02/22 12:44:03 Starting 4 workers on 4 cores writing 10.000G bytes (4.000K per call)...
-	2013/02/22 12:44:03 Thread 3: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T//iowhip_3_1361533443840381000
-	2013/02/22 12:44:03 Thread 1: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T//iowhip_1_1361533443840380000
-	2013/02/22 12:44:03 Thread 2: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T//iowhip_2_1361533443840401000
-	2013/02/22 12:44:03 Thread 0: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T//iowhip_0_1361533443840421000
-	2013/02/22 12:47:07 Thread 1: 2m56.284958s, 58.088M/s
-	2013/02/22 12:47:07 Thread 0: 2m58.190676s, 57.467M/s
-	2013/02/22 12:47:07 Thread 2: 2m59.765777s, 56.963M/s
-	2013/02/22 12:47:07 Thread 3: 3m3.512097s, 55.800M/s
-
+	$ iowhip -f 1G
+	2013/02/23 10:42:57 Starting 4 workers on 4 cores writing 1.000G bytes (4.000K per call)...
+	2013/02/23 10:42:57 Thread 0: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1361612577280469000/0
+	2013/02/23 10:42:57 Thread 1: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1361612577280469000/1
+	2013/02/23 10:42:57 Thread 2: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1361612577280469000/2
+	2013/02/23 10:42:57 Thread 3: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1361612577280469000/3
+	2013/02/23 10:43:15 Thread 2: 17.871586s, 57.298M/s
+	2013/02/23 10:43:15 Thread 0: 17.910851s, 57.172M/s
+	2013/02/23 10:43:15 Thread 3: 17.970065s, 56.984M/s
+	2013/02/23 10:43:15 Thread 1: 18.010156s, 56.857M/s
 
 ## Binaries
 
