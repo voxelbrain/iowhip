@@ -19,13 +19,12 @@ const (
 )
 
 var (
-	DefaultFilesize  = 10 * GigaByte
 	DefaultBlocksize = 4 * KiloByte
 	options          = struct {
 		Cores     int           `goptions:"-c, --cores, description='Number of cores to use'"`
 		Threads   int           `goptions:"-t, --threads, description='Number of threads to use'"`
 		Blocksize *Datasize     `goptions:"-b, --block-size, description='Number of bytes to write with each call'"`
-		Filesize  *Datasize     `goptions:"-f, --file-size, description='Number of zeroes to write to each file'"`
+		Filesize  *Datasize     `goptions:"-f, --file-size, obligatory, description='Number of zeroes to write to each file'"`
 		OutputDir string        `goptions:"-o, --output-dir, description='Output directory'"`
 		Sync      bool          `goptions:"-s, --sync, description='Sync after every written block'"`
 		KeepFiles bool          `goptions:"-k, --keep-files, description='Dont delete files when done'"`
@@ -33,7 +32,6 @@ var (
 	}{
 		Cores:     runtime.NumCPU(),
 		Threads:   runtime.NumCPU(),
-		Filesize:  &DefaultFilesize,
 		Blocksize: &DefaultBlocksize,
 		OutputDir: os.TempDir(),
 	}
