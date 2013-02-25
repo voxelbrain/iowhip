@@ -89,6 +89,9 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 	filename := fmt.Sprintf("%s/%d", options.OutputDir, idx)
 	log.Printf("Thread %d: Using %s", idx, filename)
 
+	amount := *options.Filesize
+	data := make([]byte, int(*options.Blocksize))
+	start := time.Now()
 	f, err := os.Create(filename)
 	if err != nil {
 		log.Printf("Thread %d: Could not open file %s: %s", idx, filename, err)
@@ -96,9 +99,6 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 	}
 	defer f.Close()
 
-	amount := *options.Filesize
-	data := make([]byte, int(*options.Blocksize))
-	start := time.Now()
 	for amount > 0 {
 		n, err := f.Write(data)
 		if err != nil {
@@ -111,5 +111,6 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 		}
 	}
 	f.Sync()
+	f.Close()
 	result.Duration = time.Now().Sub(start)
 }
