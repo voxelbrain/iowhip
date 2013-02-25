@@ -9,6 +9,7 @@ import (
 	"runtime"
 	"sync"
 	"syscall"
+	"text/tabwriter"
 	"time"
 
 	"github.com/voxelbrain/goptions"
@@ -44,8 +45,9 @@ func init() {
 }
 
 type Result struct {
-	Index    int
-	Duration time.Duration
+	Index       int
+	TotalTime   time.Duration
+	WritingTime time.Duration
 }
 
 func main() {
@@ -65,19 +67,28 @@ func main() {
 	runtime.GOMAXPROCS(options.Cores)
 	log.Printf("Starting %d workers on %d cores writing %s bytes (%s per call)...", options.Threads, options.Cores, options.Filesize, options.Blocksize)
 
-	results := make(chan Result, options.Threads)
+	results := make(chan Result)
 	wg := &sync.WaitGroup{}
 	wg.Add(options.Threads)
 	for i := 0; i < options.Threads; i++ {
 		go writeFile(i, results, wg)
 	}
 	wg.Wait()
+
+	prettyPrint(results)
+	cleanup <- syscall.SIGINT
+}
+
+func prettyPrint(results <-chan Result) {
+	w := tabwriter.NewWriter(os.Stdout, 3, 1, 2, ' ', tabwriter.AlignRight)
+	defer w.Flush()
+	fmt.Fprintf(w, "\nThread\tTotal Time\tTotal Speed\tWriting Time\tWriting Speed\t\n")
 	for i := 0; i < options.Threads; i++ {
 		r := <-results
-		log.Printf("Thread %d: %s, %s/s", r.Index, r.Duration, Datasize(int64(float64(*options.Filesize)*float64(time.Second)/float64(r.Duration))))
+		fmt.Fprintf(w, "%d\t%s\t%s/s\t%s\t%s/s\t\n", r.Index,
+			r.TotalTime, Datasize(int64(float64(*options.Filesize)*float64(time.Second)/float64(r.TotalTime))),
+			r.WritingTime, Datasize(int64(float64(*options.Filesize)*float64(time.Second)/float64(r.WritingTime))))
 	}
-	close(results)
-	cleanup <- syscall.SIGINT
 }
 
 func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
@@ -91,7 +102,7 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 
 	amount := *options.Filesize
 	data := make([]byte, int(*options.Blocksize))
-	start := time.Now()
+	start_creating := time.Now()
 	f, err := os.Create(filename)
 	if err != nil {
 		log.Printf("Thread %d: Could not open file %s: %s", idx, filename, err)
@@ -99,6 +110,7 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 	}
 	defer f.Close()
 
+	start_writing := time.Now()
 	for amount > 0 {
 		n, err := f.Write(data)
 		if err != nil {
@@ -111,6 +123,7 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 		}
 	}
 	f.Sync()
+	result.WritingTime = time.Since(start_writing)
 	f.Close()
-	result.Duration = time.Now().Sub(start)
+	result.TotalTime = time.Since(start_creating)
 }
