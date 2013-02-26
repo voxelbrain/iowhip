@@ -42,6 +42,13 @@ var (
 func init() {
 	goptions.ParseAndFail(&options)
 	options.OutputDir = filepath.Clean(options.OutputDir + "/iowhip_" + Timestamp)
+
+	cleanupc := make(chan os.Signal)
+	signal.Notify(cleanupc, syscall.SIGTERM, syscall.SIGKILL, syscall.SIGINT)
+	go func() {
+		<-cleanupc
+		cleanup()
+	}()
 }
 
 type Result struct {
@@ -50,19 +57,17 @@ type Result struct {
 	WritingTime time.Duration
 }
 
+func cleanup() {
+	if !options.KeepFiles {
+		os.RemoveAll(options.OutputDir)
+	}
+}
+
 func main() {
 	err := os.MkdirAll(options.OutputDir, os.FileMode(0755))
 	if err != nil {
 		log.Fatalf("Could not create output directory %s: %s", options.OutputDir, err)
 	}
-	cleanup := make(chan os.Signal)
-	signal.Notify(cleanup, syscall.SIGTERM, syscall.SIGKILL, syscall.SIGINT)
-	go func() {
-		<-cleanup
-		if !options.KeepFiles {
-			os.RemoveAll(options.OutputDir)
-		}
-	}()
 
 	runtime.GOMAXPROCS(options.Cores)
 	log.Printf("Starting %d workers on %d cores writing %s bytes (%s per call)...", options.Threads, options.Cores, options.Filesize, options.Blocksize)
@@ -76,7 +81,7 @@ func main() {
 	wg.Wait()
 
 	prettyPrint(results)
-	cleanup <- syscall.SIGINT
+	cleanup()
 }
 
 func prettyPrint(results <-chan Result) {
