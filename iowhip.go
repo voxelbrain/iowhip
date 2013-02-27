@@ -29,6 +29,9 @@ var (
 		OutputDir string        `goptions:"-o, --output-dir, description='Output directory'"`
 		Sync      bool          `goptions:"-s, --sync, description='Sync after every written block'"`
 		KeepFiles bool          `goptions:"-k, --keep-files, description='Dont delete files when done'"`
+		Dsync     bool          `goptions:"--dsync, description='Open files with O_DSYNC'"`
+		Direct    bool          `goptions:"--direct, description='Open files with O_DIRECT'"`
+		OpenSync  bool          `goptions:"--osync, description='Open files with O_SYNC'"`
 		Help      goptions.Help `goptions:"-h, --help, description='Show this help'"`
 	}{
 		Cores:     runtime.NumCPU(),
@@ -108,7 +111,19 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 	amount := *options.Filesize
 	data := make([]byte, int(*options.Blocksize))
 	start_creating := time.Now()
-	f, err := os.Create(filename)
+
+	openOpts := os.O_WRONLY | os.O_CREATE
+	if options.Direct {
+		openOpts |= syscall.O_DIRECT
+	}
+	if options.Dsync {
+		openOpts |= syscall.O_DSYNC
+	}
+	if options.OpenSync {
+		openOpts |= os.O_SYNC
+	}
+
+	f, err := os.OpenFile(filename, openOpts, 0644)
 	if err != nil {
 		log.Printf("Thread %d: Could not open file %s: %s", idx, filename, err)
 		return
