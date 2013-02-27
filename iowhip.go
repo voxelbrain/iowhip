@@ -29,8 +29,8 @@ var (
 		OutputDir string        `goptions:"-o, --output-dir, description='Output directory'"`
 		Sync      bool          `goptions:"-s, --sync, description='Sync after every written block'"`
 		KeepFiles bool          `goptions:"-k, --keep-files, description='Dont delete files when done'"`
-		Dsync     bool          `goptions:"--dsync, description='Open files with O_DSYNC'"`
-		Direct    bool          `goptions:"--direct, description='Open files with O_DIRECT'"`
+		Dsync     bool          `goptions:"--dsync, description='Open files with O_DSYNC (Linux only)'"`
+		Direct    bool          `goptions:"--direct, description='Open files with O_DIRECT (Linux only)'"`
 		OpenSync  bool          `goptions:"--osync, description='Open files with O_SYNC'"`
 		Help      goptions.Help `goptions:"-h, --help, description='Show this help'"`
 	}{
@@ -114,10 +114,10 @@ func writeFile(idx int, c chan Result, wg *sync.WaitGroup) {
 
 	openOpts := os.O_WRONLY | os.O_CREATE
 	if options.Direct {
-		openOpts |= syscall.O_DIRECT
+		openOpts |= O_DIRECT
 	}
 	if options.Dsync {
-		openOpts |= syscall.O_DSYNC
+		openOpts |= O_DSYNC
 	}
 	if options.OpenSync {
 		openOpts |= os.O_SYNC
