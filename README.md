@@ -1,4 +1,4 @@
-`iowhip` is simple I/O stressing tool.
+`iowhip` is a simple I/O stressing tool.
 
 ## Installation
 
@@ -17,6 +17,9 @@
 	    -o, --output-dir Output directory (default: /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/)
 	    -s, --sync       Sync after every written block
 	    -k, --keep-files Dont delete files when done
+	        --dsync      Open files with O_DSYNC (Linux only)
+	        --direct     Open files with O_DIRECT (Linux only)
+	        --osync      Open files with O_SYNC
 	    -h, --help       Show this help
 
 	$ iowhip -f 1G
