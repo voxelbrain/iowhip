@@ -16,7 +16,7 @@ test:
     - go build -o "$(basename $PWD)"
 deployment:
   master:
-    branch: master
+    branch: [master, feature/circleci-integration]
     commands:
       - go get github.com/surma/s3put
       - "[ ! -z \"$S3KEY\" ] && [ ! -z \"$S3SECRET\" ] && [ ! -z \"$S3BUCKET\" ] || (echo \"missing s3put environment variables\"; exit 1)"
