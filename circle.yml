@@ -1,0 +1,16 @@
+machine:
+  environment:
+    GOPATH: $HOME/.local/lib/go
+    PATH: $PATH:$HOME/.local/bin:${GOPATH//://bin:}/bin
+checkout:
+  post:
+    - mkdir -p $GOPATH
+dependencies:
+  pre:
+    - pip install --user bzr
+  cache_directories:
+    - "../.local"
+test:
+  override:
+    - go test
+    - go build -o iowhip
