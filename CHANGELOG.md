@@ -1,4 +1,9 @@
 # Changelog
+## 1.3.1
+### Bugfixes
+
+* Fix typo in documentation
+
 ## 1.3.0
 ### New features
 
