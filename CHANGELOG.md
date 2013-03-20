@@ -1,0 +1,14 @@
+# Changelog
+## 1.3.0
+### New features
+
+* Support for `O_DSYNC`, `O_SYNC` and `O_DIRECT`
+
+### Bugfixes
+
+* Fix cleanup routine
+* Make time measurements more reasonable
+* Prettify output
+* Add CONTRIBUTORS
+* Remove placeholders from LICENSE
+
