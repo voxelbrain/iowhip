@@ -1,7 +1,7 @@
 Contributors
 ============
 
-These people have contributed to dibble's design and implementation:
+These people have contributed to iowhip's design and implementation:
 
   * Sebastian Friedel <https://github.com/sfriedel>
   * Andreas Krennmair <http://github.com/akrennmair>
