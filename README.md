@@ -23,15 +23,17 @@
 	    -h, --help       Show this help
 
 	$ iowhip -f 1G
-	2013/02/23 10:42:57 Starting 4 workers on 4 cores writing 1.000G bytes (4.000K per call)...
-	2013/02/23 10:42:57 Thread 0: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1361612577280469000/0
-	2013/02/23 10:42:57 Thread 1: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1361612577280469000/1
-	2013/02/23 10:42:57 Thread 2: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1361612577280469000/2
-	2013/02/23 10:42:57 Thread 3: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1361612577280469000/3
-	2013/02/23 10:43:15 Thread 2: 17.871586s, 57.298M/s
-	2013/02/23 10:43:15 Thread 0: 17.910851s, 57.172M/s
-	2013/02/23 10:43:15 Thread 3: 17.970065s, 56.984M/s
-	2013/02/23 10:43:15 Thread 1: 18.010156s, 56.857M/s
+	2013/03/20 16:04:42 Starting 4 workers on 4 cores writing 1.000G bytes (4.000K per call)...
+	2013/03/20 16:04:42 Thread 0: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1363791882334221000/0
+	2013/03/20 16:04:42 Thread 3: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1363791882334221000/3
+	2013/03/20 16:04:42 Thread 1: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1363791882334221000/1
+	2013/03/20 16:04:42 Thread 2: Using /var/folders/k4/4rlzbxl14d9_2k_jwyfv_nzh0000gn/T/iowhip_1363791882334221000/2
+
+	  Thread  Total Time  Total Speed  Writing Time  Writing Speed
+	       1  19.995106s    51.213M/s     19.99464s      51.214M/s
+	       2   20.07883s    50.999M/s    20.078598s      51.000M/s
+	       0  20.237617s    50.599M/s    20.237483s      50.599M/s
+	       3  20.302615s    50.437M/s    20.302451s      50.437M/s
 
 ## Binaries
 
