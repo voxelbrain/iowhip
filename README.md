@@ -1,5 +1,7 @@
 `iowhip` is a simple I/O stressing tool.
 
+![](https://circleci.com/gh/voxelbrain/iowhip.png?circle-token=6175d23a17763825d71dde0761f08246d98d233d)
+
 ## Installation
 
 	go get github.com/voxelbrain/iowhip
