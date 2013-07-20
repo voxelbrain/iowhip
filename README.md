@@ -37,15 +37,11 @@
 
 ## Binaries
 
-* [Darwin 386](http://filedump.surmair.de/binaries/iowhip/darwin_386/iowhip)
-* [Darwin amd64](http://filedump.surmair.de/binaries/iowhip/darwin_amd64/iowhip)
-* [Freebsd 386](http://filedump.surmair.de/binaries/iowhip/freebsd_386/iowhip)
-* [Freebsd amd64](http://filedump.surmair.de/binaries/iowhip/freebsd_amd64/iowhip)
-* [Linux 386](http://filedump.surmair.de/binaries/iowhip/linux_386/iowhip)
-* [Linux amd64](http://filedump.surmair.de/binaries/iowhip/linux_amd64/iowhip)
-* [Linux arm](http://filedump.surmair.de/binaries/iowhip/linux_arm/iowhip)
-* [Windows 386](http://filedump.surmair.de/binaries/iowhip/windows_386/iowhip.exe)
-* [Windows amd64](http://filedump.surmair.de/binaries/iowhip/windows_amd64/iowhip.exe)
+* [Darwin 386](http://downloads.voxelbrain.com/iowhip/master/darwin_386/iowhip)
+* [Darwin amd64](http://downloads.voxelbrain.com/iowhip/master/darwin_amd64/iowhip)
+* [Linux 386](http://downloads.voxelbrain.com/iowhip/master/linux_386/iowhip)
+* [Linux amd64](http://downloads.voxelbrain.com/iowhip/master/linux_amd64/iowhip)
+* [Linux arm](http://downloads.voxelbrain.com/iowhip/master/linux_arm/iowhip)
 
 ---
 Version 1.3.2
