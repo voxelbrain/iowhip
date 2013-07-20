@@ -1,6 +1,6 @@
 test:
   override:
-    - go list -f "{{range .TestImports}}{{.}} {{end}}" . | xargs go get
+    - go list -f "{{range .TestImports}}{{.}} {{end}}" . | xargs -r go get
     - go test
     - goxc -d . -arch "386 amd64 arm" -os "linux darwin" xc
 deployment:
