@@ -8,5 +8,5 @@ deployment:
     branch: [master, develop]
     commands:
       - go get github.com/surma/s3put
-      - "[ ! -z \"$S3KEY\" ] && [ ! -z \"$S3SECRET\" ] && [ ! -z \"$S3BUCKET\" ] || (echo \"missing s3put environment variables\"; exit 1)"
-      - s3put -k "$S3KEY" -s "$S3SECRET" -r eu-west-1 -b "$S3BUCKET" put -p "$(basename $PWD)/$CIRCLE_BRANCH/" unknown
+      - "[ ! -z \"$SERVICE\" ] && [ ! -z \"$S3KEY\" ] && [ ! -z \"$S3SECRET\" ] && [ ! -z \"$S3BUCKET\" ] || (echo \"missing s3put environment variables\"; exit 1)"
+      - s3put -p "$(basename $PWD)/$CIRCLE_BRANCH/" $SERVICE -k "$S3KEY" -s "$S3SECRET" -b "$S3BUCKET" put unknown
