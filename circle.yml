@@ -1,3 +1,7 @@
+checkout:
+  post:
+    - mkdir -p ${GOPATH%%:*}/src/github.com/${CIRCLE_PROJECT_USERNAME}
+    - ln -sf $(pwd) ${GOPATH%%:*}/src/github.com/${CIRCLE_PROJECT_USERNAME}/$(basename $(pwd))
 test:
   override:
     - go list -f "{{range .TestImports}}{{.}} {{end}}" . | xargs -r go get
@@ -9,4 +13,5 @@ deployment:
     commands:
       - go get github.com/surma/s3put
       - "[ ! -z \"$SERVICE\" ] && [ ! -z \"$S3KEY\" ] && [ ! -z \"$S3SECRET\" ] && [ ! -z \"$S3BUCKET\" ] || (echo \"missing s3put environment variables\"; exit 1)"
-      - s3put -p "$(basename $PWD)/$CIRCLE_BRANCH/" $SERVICE -k "$S3KEY" -s "$S3SECRET" -b "$S3BUCKET" put unknown
+      - s3put -p "$(basename $PWD)/$CIRCLE_BRANCH/$CIRCLE_BUILD_NUM/" $SERVICE -k "$S3KEY" -s "$S3SECRET" -b "$S3BUCKET" put unknown
+      - s3put -p "$(basename $PWD)/$CIRCLE_BRANCH/current/" $SERVICE -k "$S3KEY" -s "$S3SECRET" -b "$S3BUCKET" put unknown
