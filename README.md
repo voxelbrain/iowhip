@@ -46,4 +46,4 @@
 * [Linux arm](http://downloads.voxelbrain.com/iowhip/master/linux_arm/iowhip)
 
 ---
-Version 1.3.5
+Version 1.3.6
